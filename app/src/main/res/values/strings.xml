@@ -3,4 +3,22 @@
     <string name="civil_authority">Civil Authority</string>
     <string name="login_as_organization">Login as Organization</string>
     <string name="login_with_id">Login with Id</string>
+    <string name="admin_activity_title">Civil Authority Admin</string>
+    <string name="add_persion_title">Add New Person</string>
+    <string name="name">Name</string>
+    <string name="birth_date">Birth Date</string>
+    <string name="nationality">Nationality</string>
+    <string name="civil_id">Civil id</string>
+    <string name="disability">Disability</string>
+    <string name="residency">Residency</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone</string>
+    <string name="martial_status">Martial Status</string>
+    <string name="job">Job</string>
+    <string name="gender">Gender:</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="save">Save</string>
 </resources>

@@ -3,12 +3,17 @@
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowActionBar">false</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.ActionBar</item>
         <!--        <item name="fontFamily">@font/allerta</item>-->
+    </style>
+
+    <style name="ThemeOverlay.ActionBar" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnSurface">@color/white</item>
     </style>
 
     <style name="FullScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">

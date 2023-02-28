@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
+        <activity android:name=".admin.AddOrganizationActivity" />
+        <activity android:name=".admin.AddPersonActivity" />
+        <activity android:name=".admin.AdminActivity" />
         <activity
             android:name="com.android.smartvirtualid.MainActivity"
             android:theme="@style/FullScreenTheme" />
