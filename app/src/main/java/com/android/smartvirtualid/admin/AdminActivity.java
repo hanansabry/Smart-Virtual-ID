@@ -23,4 +23,9 @@ public class AdminActivity extends AppCompatActivity {
     public void onAddFileClicked() {
         startActivity(new Intent(this, AddPersonActivity.class));
     }
+
+    @OnClick(R.id.add_organization_cardview)
+    public void onAddOrganizationClicked() {
+        startActivity(new Intent(this, AddOrganizationActivity.class));
+    }
 }

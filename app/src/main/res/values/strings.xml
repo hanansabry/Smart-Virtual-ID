@@ -21,4 +21,6 @@
     <string name="female">Female</string>
     <string name="upload_photo">Upload Photo</string>
     <string name="save">Save</string>
+    <string name="organization_name">Organization Name</string>
+    <string name="description">Description</string>
 </resources>
