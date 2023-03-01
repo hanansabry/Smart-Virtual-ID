@@ -1,4 +1,4 @@
-package com.android.smartvirtualid;
+package com.android.smartvirtualid.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
@@ -7,7 +7,8 @@ import butterknife.OnClick;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.android.smartvirtualid.admin.AdminActivity;
+import com.android.smartvirtualid.R;
+import com.android.smartvirtualid.presentation.admin.AdminActivity;
 
 public class MainActivity extends AppCompatActivity {
 

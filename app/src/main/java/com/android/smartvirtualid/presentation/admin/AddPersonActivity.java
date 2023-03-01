@@ -1,4 +1,4 @@
-package com.android.smartvirtualid.person;
+package com.android.smartvirtualid.presentation.admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,11 +6,12 @@ import android.os.Bundle;
 
 import com.android.smartvirtualid.R;
 
-public class PersonalInformationActivity extends AppCompatActivity {
+public class AddPersonActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_information);
+        setContentView(R.layout.activity_add_person);
+        setTitle(getString(R.string.add_persion_title));
     }
 }

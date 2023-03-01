@@ -1,11 +1,12 @@
-package com.android.smartvirtualid;
+package com.android.smartvirtualid.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.android.smartvirtualid.R;
 
 public class SplashActivity extends AppCompatActivity {
     private static final long SPLASH_TIME_OUT = 500;

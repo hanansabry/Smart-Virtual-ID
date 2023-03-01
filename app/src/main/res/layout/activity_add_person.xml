@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.AddPersonActivity">
+    tools:context=".presentation.admin.AddPersonActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

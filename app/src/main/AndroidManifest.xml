@@ -4,6 +4,7 @@
     package="com.android.smartvirtualid">
 
     <application
+        android:name=".presentation.BaseActivity"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,18 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
-        <activity android:name=".person.PersonalInformationActivity" />
-        <activity android:name=".organization.AddMemberActivity" />
-        <activity android:name=".organization.OrganizationActivity" />
-        <activity android:name=".admin.AddOrganizationActivity" />
-        <activity android:name=".admin.AddPersonActivity" />
-        <activity android:name=".admin.AdminActivity" />
+        <activity android:name=".presentation.person.PersonalInformationActivity" />
+        <activity android:name=".presentation.organization.AddMemberActivity" />
+        <activity android:name=".presentation.organization.OrganizationActivity" />
+        <activity android:name=".presentation.admin.AddOrganizationActivity" />
+        <activity android:name=".presentation.admin.AddPersonActivity" />
+        <activity android:name=".presentation.admin.AdminActivity" />
         <activity
-            android:name="com.android.smartvirtualid.MainActivity"
+            android:name="com.android.smartvirtualid.presentation.MainActivity"
             android:theme="@style/FullScreenTheme" />
         <activity
-            android:name="com.android.smartvirtualid.SplashActivity"
+            android:name="com.android.smartvirtualid.presentation.SplashActivity"
             android:exported="true"
+            android:noHistory="true"
             android:theme="@style/FullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

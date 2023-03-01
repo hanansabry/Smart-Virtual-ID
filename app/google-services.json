@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "422486337524",
+    "project_id": "smart-virtual-id",
+    "storage_bucket": "smart-virtual-id.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422486337524:android:16081a1babf9050da2fba1",
+        "android_client_info": {
+          "package_name": "com.android.smartvirtualid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "422486337524-752ehhnoqibhq9tht9bhdkecu0i7n0ka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoQx5A6cvfWcq4ryruh6_YXxO-St8KLrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "422486337524-752ehhnoqibhq9tht9bhdkecu0i7n0ka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

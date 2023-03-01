@@ -1,4 +1,4 @@
-package com.android.smartvirtualid.adapters;
+package com.android.smartvirtualid.presentation.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

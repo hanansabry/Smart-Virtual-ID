@@ -1,4 +1,4 @@
-package com.android.smartvirtualid.organization;
+package com.android.smartvirtualid.presentation.organization;
 
 import androidx.appcompat.app.AppCompatActivity;
 

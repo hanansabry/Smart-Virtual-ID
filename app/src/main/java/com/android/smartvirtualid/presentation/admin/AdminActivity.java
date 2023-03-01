@@ -1,4 +1,4 @@
-package com.android.smartvirtualid.admin;
+package com.android.smartvirtualid.presentation.admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;

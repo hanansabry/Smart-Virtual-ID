@@ -1,4 +1,4 @@
-package com.android.smartvirtualid.admin;
+package com.android.smartvirtualid.presentation.admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,12 +6,11 @@ import android.os.Bundle;
 
 import com.android.smartvirtualid.R;
 
-public class AddPersonActivity extends AppCompatActivity {
+public class AddOrganizationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_person);
-        setTitle(getString(R.string.add_persion_title));
+        setContentView(R.layout.activity_add_organization);
     }
 }
