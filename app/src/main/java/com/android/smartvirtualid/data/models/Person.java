@@ -2,6 +2,8 @@ package com.android.smartvirtualid.data.models;
 
 public class Person {
 
+    public static final String PERSON_ROLE = "person";
+
     private String id;
     private String name;
     private String gender;

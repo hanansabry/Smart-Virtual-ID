@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.admin.AddPersonActivity">
+    tools:context=".presentation.SignInActivity">
+
+    <ImageView
+        android:id="@+id/logo_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="64dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/main_logo"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical">
+        android:layout_margin="32dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/login_lbl"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/organization_name"
-            app:startIconDrawable="@drawable/organization_icon"
-            app:startIconTint="@color/colorPrimary">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/organization_name_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:text="@string/login"
+            android:textSize="32sp"
+            android:layout_gravity="center"/>
 
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:hint="@string/email"
             app:startIconDrawable="@drawable/icons8_mail_24"
             app:startIconTint="@color/colorPrimary">
@@ -49,7 +53,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:hint="@string/password"
             app:startIconDrawable="@drawable/password"
             app:startIconTint="@color/colorPrimary">
@@ -61,34 +65,17 @@
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/description"
-            android:layout_gravity="top"
-            android:gravity="top">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/description_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:gravity="top"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
         <Button
-            android:id="@+id/save_button"
+            android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
-            android:text="@string/save"
+            android:text="@string/login"
             android:textColor="@color/white"
             android:textAllCaps="false"
+            android:textSize="18sp"
             android:background="@drawable/cornered_primary_bg"/>
-
-
     </LinearLayout>
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

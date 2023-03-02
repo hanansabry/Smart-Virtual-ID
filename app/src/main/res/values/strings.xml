@@ -31,4 +31,6 @@
     <string name="upload_id">Upload Id</string>
     <string name="add_organization_title">Add New Organization</string>
     <string name="all_fields_required_msg">All fields must be entered</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
 </resources>

@@ -7,8 +7,11 @@ import com.android.smartvirtualid.data.models.Organization;
 import com.android.smartvirtualid.data.models.Person;
 import com.android.smartvirtualid.utils.Constants;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -18,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 
@@ -137,6 +141,103 @@ public class FirebaseDataSource {
                                     });
                         } else {
                             emitter.onError(authTask.getException());
+                        }
+                    });
+        });
+    }
+
+    public Single<Person> signInAsPerson(String email, String password) {
+        return Single.create(emitter -> {
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String userId = task.getResult().getUser().getUid();
+                            DatabaseReference userRef = firebaseDatabase.getReference(Constants.PERSONS_NODE).child(userId);
+                            userRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            Person person = snapshot.getValue(Person.class);
+                                            if (person != null) {
+                                                person.setId(userId);
+                                                emitter.onSuccess(person);
+                                            } else {
+                                                emitter.onError(new Throwable("error"));
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            emitter.onError(new Throwable("error"));
+                                        }
+                                    });
+                        } else {
+                            emitter.onError(task.getException());
+                        }
+                    });
+        });
+    }
+
+    public Single<Organization> signInAsOrganization(String email, String password) {
+        return Single.create(emitter -> {
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String userId = task.getResult().getUser().getUid();
+                            DatabaseReference userRef = firebaseDatabase.getReference(Constants.ORGANIZATIONS_NODE).child(userId);
+                            userRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            Organization organization = snapshot.getValue(Organization.class);
+                                            if (organization != null) {
+                                                organization.setId(userId);
+                                                emitter.onSuccess(organization);
+                                            } else {
+                                                emitter.onError(new Throwable("error"));
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            emitter.onError(new Throwable("error"));
+                                        }
+                                    });
+                        } else {
+                            emitter.onError(task.getException());
+                        }
+                    });
+        });
+    }
+
+    public Single<Boolean> signInAsAuthorityAdmin(String email, String password) {
+        return Single.create(emitter -> {
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String adminId = task.getResult().getUser().getUid();
+                            DatabaseReference userRef = firebaseDatabase.getReference("admin").child(adminId);
+                            userRef.addListenerForSingleValueEvent(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            String adminEmail = snapshot.child("email").getValue(String.class);
+                                            String adminPassword = snapshot.child("password").getValue(String.class);
+                                            if (email.equalsIgnoreCase(adminEmail)
+                                                    && password.equals(adminPassword)) {
+                                                emitter.onSuccess(true);
+                                            } else {
+                                                emitter.onError(new Throwable("error"));
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            emitter.onError(new Throwable("error"));
+                                        }
+                                    });
+                        } else {
+                            emitter.onError(task.getException());
                         }
                     });
         });

@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.smartvirtualid.R;
+import com.android.smartvirtualid.data.models.Organization;
+import com.android.smartvirtualid.data.models.Person;
 import com.android.smartvirtualid.presentation.admin.AdminActivity;
 import com.android.smartvirtualid.presentation.organization.OrganizationActivity;
 import com.android.smartvirtualid.presentation.person.PersonalInformationActivity;
+import com.android.smartvirtualid.utils.Constants;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,16 +26,22 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.login_as_civil_authority)
     public void onLoginAsCivilAuthorityClicked() {
-        startActivity(new Intent(this, AdminActivity.class));
+        Intent intent = new Intent(this, SignInActivity.class);
+        intent.putExtra(Constants.ROLE, Constants.AUTHORITY_ADMIN);
+        startActivity(intent);
     }
 
     @OnClick(R.id.login_with_id)
     public void onLoginWithIdClicked() {
-        startActivity(new Intent(this, PersonalInformationActivity.class));
+        Intent intent = new Intent(this, SignInActivity.class);
+        intent.putExtra(Constants.ROLE, Person.PERSON_ROLE);
+        startActivity(intent);
     }
 
     @OnClick(R.id.login_as_organization)
     public void onLoginAsOrganization() {
-        startActivity(new Intent(this, OrganizationActivity.class));
+        Intent intent = new Intent(this, SignInActivity.class);
+        intent.putExtra(Constants.ROLE, Organization.ORGANIZATION_ROLE);
+        startActivity(intent);
     }
 }

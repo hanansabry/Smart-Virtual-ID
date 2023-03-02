@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
+        <activity
+            android:name=".presentation.SignInActivity"
+            android:theme="@style/FullScreenTheme" />
         <activity android:name=".presentation.person.PersonalInformationActivity" />
         <activity android:name=".presentation.organization.AddMemberActivity" />
         <activity android:name=".presentation.organization.OrganizationActivity" />
@@ -21,10 +24,10 @@
         <activity android:name=".presentation.admin.AddPersonActivity" />
         <activity android:name=".presentation.admin.AdminActivity" />
         <activity
-            android:name="com.android.smartvirtualid.presentation.MainActivity"
+            android:name=".presentation.MainActivity"
             android:theme="@style/FullScreenTheme" />
         <activity
-            android:name="com.android.smartvirtualid.presentation.SplashActivity"
+            android:name=".presentation.SplashActivity"
             android:exported="true"
             android:noHistory="true"
             android:theme="@style/FullScreenTheme">

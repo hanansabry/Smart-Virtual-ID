@@ -31,4 +31,16 @@ public class DatabaseRepository {
     public Single<Boolean> addNewOrganization(Organization organization) {
         return firebaseDataSource.addNewOrganization(organization);
     }
+
+    public Single<Person> signInAsPerson(String email, String password) {
+        return firebaseDataSource.signInAsPerson(email, password);
+    }
+
+    public Single<Organization> signInAsOrganization(String email, String password) {
+        return firebaseDataSource.signInAsOrganization(email, password);
+    }
+
+    public Single<Boolean> signInAsAdmin(String email, String password) {
+        return firebaseDataSource.signInAsAuthorityAdmin(email, password);
+    }
 }

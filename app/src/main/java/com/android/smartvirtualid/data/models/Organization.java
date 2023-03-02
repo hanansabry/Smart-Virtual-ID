@@ -2,6 +2,8 @@ package com.android.smartvirtualid.data.models;
 
 public class Organization {
 
+    public static final String ORGANIZATION_ROLE = "organization";
+
     private String id;
     private String name;
     private String email;
