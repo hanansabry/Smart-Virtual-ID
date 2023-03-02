@@ -2,6 +2,7 @@ package com.android.smartvirtualid.data;
 
 import android.net.Uri;
 
+import com.android.smartvirtualid.data.models.Organization;
 import com.android.smartvirtualid.data.models.Person;
 import com.android.smartvirtualid.datasource.FirebaseDataSource;
 
@@ -25,5 +26,9 @@ public class DatabaseRepository {
 
     public Single<Boolean> addNewPerson(Person person) {
         return firebaseDataSource.addNewPerson(person);
+    }
+
+    public Single<Boolean> addNewOrganization(Organization organization) {
+        return firebaseDataSource.addNewOrganization(organization);
     }
 }

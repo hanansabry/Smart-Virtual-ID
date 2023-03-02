@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import com.android.smartvirtualid.R;
 import com.android.smartvirtualid.presentation.admin.AdminActivity;
+import com.android.smartvirtualid.presentation.organization.OrganizationActivity;
+import com.android.smartvirtualid.presentation.person.PersonalInformationActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.login_with_id)
     public void onLoginWithIdClicked() {
-
+        startActivity(new Intent(this, PersonalInformationActivity.class));
     }
 
     @OnClick(R.id.login_as_organization)
     public void onLoginAsOrganization() {
-
+        startActivity(new Intent(this, OrganizationActivity.class));
     }
 }

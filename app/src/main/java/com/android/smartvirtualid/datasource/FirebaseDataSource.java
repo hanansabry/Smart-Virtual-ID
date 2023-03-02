@@ -3,6 +3,7 @@ package com.android.smartvirtualid.datasource;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import com.android.smartvirtualid.data.models.Organization;
 import com.android.smartvirtualid.data.models.Person;
 import com.android.smartvirtualid.utils.Constants;
 import com.google.firebase.auth.FirebaseAuth;
@@ -72,28 +73,25 @@ public class FirebaseDataSource {
     public Single<Boolean> addNewPerson(Person person) {
         return Single.create(emitter -> {
             DatabaseReference personsRef = firebaseDatabase.getReference(Constants.PERSONS_NODE);
-            String personId = personsRef.push().getKey();
+            //create user with email and password
+            firebaseAuth.createUserWithEmailAndPassword(person.getEmail(), person.getPassword())
+                    .addOnCompleteListener(authTask -> {
+                        //save person in database
+                        if (authTask.isSuccessful()) {
+                            String personId = authTask.getResult().getUser().getUid();
+                            StorageReference qrCodeStorageReference = storageReference.child(Constants.QR_CODE_FOLDER + "/" + personId + "/qr_code_" + System.currentTimeMillis() + Constants.IMAGE_FILE_TYPE);
+                            Bitmap qrCode = QRCode.from(personId).withSize(1080, 1080).bitmap();
 
-            StorageReference qrCodeStorageReference = storageReference.child(Constants.QR_CODE_FOLDER + "/" + personId + "/qr_code_" + System.currentTimeMillis() + Constants.IMAGE_FILE_TYPE);
-            Bitmap qrCode = QRCode.from(personId).withSize(1080, 1080).bitmap();
-
-            //upload qrCode firstly to firebase storage
-            UploadTask qrCodeUploadTask = saveQrCode(personId, qrCode, qrCodeStorageReference);
-            qrCodeUploadTask.continueWithTask(task -> {
-                if (!task.isSuccessful()) {
-                    emitter.onError(task.getException());
-                } else {
-                    // Continue with the fileTask to get the download URL
-                    qrCodeStorageReference.getDownloadUrl().addOnCompleteListener(uploadTask -> {
-                        String downloadUrl = uploadTask.getResult().toString();
-                        person.setQrCodeUrl(downloadUrl);
-
-                        //create user with email and password
-                        firebaseAuth.createUserWithEmailAndPassword(person.getEmail(), person.getPassword())
-                                .addOnCompleteListener(authTask -> {
-                                    //save person in database
-                                    if (authTask.isSuccessful()) {
-                                        personsRef.push().setValue(person)
+                            //upload qrCode firstly to firebase storage
+                            UploadTask qrCodeUploadTask = saveQrCode(personId, qrCode, qrCodeStorageReference);
+                            qrCodeUploadTask.continueWithTask(task -> {
+                                if (!task.isSuccessful()) {
+                                    emitter.onError(task.getException());
+                                } else {
+                                    qrCodeStorageReference.getDownloadUrl().addOnCompleteListener(uploadTask -> {
+                                        String downloadUrl = uploadTask.getResult().toString();
+                                        person.setQrCodeUrl(downloadUrl);
+                                        personsRef.child(personId).setValue(person)
                                                 .addOnCompleteListener(task1 -> {
                                                     if (task1.isSuccessful()) {
                                                         emitter.onSuccess(true);
@@ -101,14 +99,14 @@ public class FirebaseDataSource {
                                                         emitter.onSuccess(false);
                                                     }
                                                 });
-                                    } else {
-                                        emitter.onError(authTask.getException());
-                                    }
-                                });
+                                    });
+                                }
+                                return null;
+                            });
+                        } else {
+                            emitter.onError(authTask.getException());
+                        }
                     });
-                }
-                return null;
-            });
         });
     }
 
@@ -118,5 +116,29 @@ public class FirebaseDataSource {
         byte[] data = baos.toByteArray();
 
         return qrCodeStorageReference.putBytes(data);
+    }
+
+    public Single<Boolean> addNewOrganization(Organization organization) {
+        return Single.create(emitter -> {
+            DatabaseReference organizationsRef = firebaseDatabase.getReference(Constants.ORGANIZATIONS_NODE);
+            //create user with email and password
+            firebaseAuth.createUserWithEmailAndPassword(organization.getEmail(), organization.getPassword())
+                    .addOnCompleteListener(authTask -> {
+                        //save person in database
+                        if (authTask.isSuccessful()) {
+                            String id = authTask.getResult().getUser().getUid();
+                            organizationsRef.child(id).setValue(organization)
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            emitter.onSuccess(true);
+                                        } else {
+                                            emitter.onSuccess(false);
+                                        }
+                                    });
+                        } else {
+                            emitter.onError(authTask.getException());
+                        }
+                    });
+        });
     }
 }

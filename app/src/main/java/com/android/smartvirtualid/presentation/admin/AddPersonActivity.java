@@ -75,7 +75,6 @@ public class AddPersonActivity extends DaggerAppCompatActivity {
     ViewModelProviderFactory providerFactory;
     AddPersonViewModel addPersonViewModel;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +170,7 @@ public class AddPersonActivity extends DaggerAppCompatActivity {
                 civilIdEditText.setError("Civil id must be 10 digits");
             }
         } else {
-            Toast.makeText(this, "All fileds must be entered", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.all_fields_required_msg, Toast.LENGTH_SHORT).show();
         }
     }
 
