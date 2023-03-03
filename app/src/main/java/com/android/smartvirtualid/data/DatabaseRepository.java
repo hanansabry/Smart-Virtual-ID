@@ -67,4 +67,8 @@ public class DatabaseRepository {
     public Single<Person> retrievePersonData(String userId) {
         return firebaseDataSource.retrievePersonData(userId);
     }
+
+    public Single<Member> retrieveMemberData(String memberId, String organizationId) {
+        return firebaseDataSource.retrieveMemberData(memberId, organizationId);
+    }
 }

@@ -23,6 +23,7 @@ import com.android.smartvirtualid.di.ViewModelProviderFactory;
 import com.android.smartvirtualid.presentation.MainActivity;
 import com.android.smartvirtualid.presentation.adapters.PersonOrganizationsAdapter;
 import com.android.smartvirtualid.presentation.viewmodels.PersonViewModel;
+import com.android.smartvirtualid.utils.Constants;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -121,6 +122,8 @@ public class PersonalInformationActivity extends DaggerAppCompatActivity impleme
 
     @Override
     public void onScanQrCodeClicked(String qrCodeUrl) {
-        Toast.makeText(this, qrCodeUrl, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, QrCodeActivity.class);
+        intent.putExtra(Constants.QR_CODE, qrCodeUrl);
+        startActivity(intent);
     }
 }

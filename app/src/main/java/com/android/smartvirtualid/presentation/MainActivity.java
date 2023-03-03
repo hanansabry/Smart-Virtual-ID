@@ -44,4 +44,10 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(Constants.ROLE, Organization.ORGANIZATION_ROLE);
         startActivity(intent);
     }
+
+    @OnClick(R.id.scan_qr_code_button)
+    public void onScanQrCodeClicked() {
+        Intent intent = new Intent(this, ScanQrCodeActivity.class);
+        startActivity(intent);
+    }
 }

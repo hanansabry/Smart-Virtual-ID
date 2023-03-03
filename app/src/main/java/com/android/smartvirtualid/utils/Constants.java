@@ -13,4 +13,6 @@ public class Constants {
     public static final String IS_EDITABLE = "is_editable";
     public static final String MEMBER = "member";
     public static final String NAME = "name";
+    public static final String QR_CODE = "qr_code";
+    public static final String MEMBER_ID = "member_id";
 }

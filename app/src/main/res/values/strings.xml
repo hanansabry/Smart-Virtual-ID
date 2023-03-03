@@ -34,4 +34,5 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="list_of_access_id">List of Access Id</string>
+    <string name="identification_card">Identification Card</string>
 </resources>

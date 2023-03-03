@@ -1,6 +1,7 @@
 package com.android.smartvirtualid.di;
 
 import com.android.smartvirtualid.di.modules.AddMemberViewModelModule;
+import com.android.smartvirtualid.di.modules.MemberViewModelModule;
 import com.android.smartvirtualid.di.modules.OrganizationViewModelModule;
 import com.android.smartvirtualid.di.modules.AddPersonViewModelModule;
 import com.android.smartvirtualid.di.modules.AuthenticationViewModelModule;
@@ -12,6 +13,7 @@ import com.android.smartvirtualid.presentation.admin.AddPersonActivity;
 import com.android.smartvirtualid.presentation.admin.AdminActivity;
 import com.android.smartvirtualid.presentation.organization.AddMemberActivity;
 import com.android.smartvirtualid.presentation.organization.OrganizationActivity;
+import com.android.smartvirtualid.presentation.person.IdentificationCardActivity;
 import com.android.smartvirtualid.presentation.person.PersonalInformationActivity;
 
 import dagger.Module;
@@ -43,4 +45,7 @@ public abstract class ActivityBuildersModule {
 
     @ContributesAndroidInjector(modules = PersonViewModelModule.class)
     abstract PersonalInformationActivity contributePersonalInformationActivity();
+
+    @ContributesAndroidInjector(modules = MemberViewModelModule.class)
+    abstract IdentificationCardActivity contributeIdentificationCardActivity();
 }

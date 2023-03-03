@@ -385,4 +385,41 @@ public class FirebaseDataSource {
                     });
         });
     }
+
+    public Single<Member> retrieveMemberData(String memberId, String organizationId) {
+        return Single.create(emitter -> {
+
+            firebaseDatabase.getReference(Constants.ORGANIZATIONS_NODE)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Member foundMember = null;
+                            outerLoop:
+                            for (DataSnapshot organizationSnapshot : snapshot.getChildren()) {
+                                if (organizationSnapshot.hasChild(Constants.MEMBERS)) {
+                                    for (DataSnapshot memberSnapshot
+                                            : organizationSnapshot.child(Constants.MEMBERS).getChildren()) {
+                                        Member member = memberSnapshot.getValue(Member.class);
+                                        member.setId(memberSnapshot.getKey());
+                                        if (member.getId().equalsIgnoreCase(memberId)) {
+                                            foundMember = member;
+                                            break outerLoop;
+                                        }
+                                    }
+                                }
+                            }
+                            if (foundMember == null) {
+                                emitter.onError(new Throwable("No member with this QR CODE"));
+                            } else {
+                                emitter.onSuccess(foundMember);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            emitter.onError(error.toException());
+                        }
+                    });
+        });
+    }
 }

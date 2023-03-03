@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70" />
+        app:layout_constraintGuide_percent="0.60" />
 
     <ImageView
         android:id="@+id/logo_image_view"
@@ -81,6 +81,20 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:text="@string/civil_authority"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            app:drawableTint="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/scan_qr_code_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/cornered_stroke_primary_bg"
+            android:drawableStart="@drawable/icons8_qr_code_24"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Scan Qr Code"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
             app:drawableTint="@color/colorPrimary" />
