@@ -3,6 +3,7 @@ package com.android.smartvirtualid.datasource;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import com.android.smartvirtualid.data.models.Member;
 import com.android.smartvirtualid.data.models.Organization;
 import com.android.smartvirtualid.data.models.Person;
 import com.android.smartvirtualid.utils.Constants;
@@ -18,10 +19,14 @@ import com.google.firebase.storage.UploadTask;
 import net.glxn.qrgen.android.QRCode;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 
@@ -239,6 +244,110 @@ public class FirebaseDataSource {
                         } else {
                             emitter.onError(task.getException());
                         }
+                    });
+        });
+    }
+
+    public Flowable<List<Person>> retrievePersonsData() {
+        return Flowable.create(emitter -> {
+            DatabaseReference personsRef = firebaseDatabase.getReference(Constants.PERSONS_NODE);
+            personsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    List<Person> personList = new ArrayList<>();
+                    for (DataSnapshot personSnapshot : snapshot.getChildren()) {
+                        Person person = personSnapshot.getValue(Person.class);
+                        person.setId(personSnapshot.getKey());
+                        personList.add(person);
+                    }
+                    emitter.onNext(personList);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(error.toException());
+                }
+            });
+        }, BackpressureStrategy.BUFFER);
+    }
+
+    public Single<Boolean> addNewOrganizationMember(Member member, String organizationId) {
+        return Single.create(emitter -> {
+            DatabaseReference memberRef = firebaseDatabase.getReference(Constants.ORGANIZATIONS_NODE)
+                    .child(organizationId)
+                    .child(Constants.MEMBERS);
+            String memberId = memberRef.push().getKey();
+
+            StorageReference qrCodeStorageReference = storageReference.child(Constants.QR_CODE_FOLDER + "/" + memberId + "/qr_code_" + System.currentTimeMillis() + Constants.IMAGE_FILE_TYPE);
+            Bitmap qrCode = QRCode.from(memberId).withSize(1080, 1080).bitmap();
+            //upload qrCode firstly to firebase storage
+            UploadTask qrCodeUploadTask = saveQrCode(memberId, qrCode, qrCodeStorageReference);
+            qrCodeUploadTask.continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    emitter.onError(task.getException());
+                } else {
+                    qrCodeStorageReference.getDownloadUrl().addOnCompleteListener(uploadTask -> {
+                        String downloadUrl = uploadTask.getResult().toString();
+                        member.setQrCode(downloadUrl);
+                        //save member to organization
+                        memberRef.child(memberId).setValue(member)
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        emitter.onSuccess(true);
+                                        //save organization to person
+                                        firebaseDatabase.getReference(Constants.PERSONS_NODE)
+                                                .child(member.getUserId())
+                                                .child(Constants.ORGANIZATIONS_NODE)
+                                                .push()
+                                                .setValue(organizationId);
+                                    } else {
+                                        emitter.onSuccess(false);
+                                    }
+                                });
+                    });
+                }
+                return null;
+            });
+
+        });
+    }
+
+    public Flowable<List<Member>> retrieveOrganizationMembers(String organizationId) {
+        return Flowable.create(emitter -> {
+            DatabaseReference organizationRef
+                    = firebaseDatabase.getReference(Constants.ORGANIZATIONS_NODE)
+                    .child(organizationId)
+                    .child(Constants.MEMBERS);
+            organizationRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    List<Member> memberList = new ArrayList<>();
+                    for (DataSnapshot memberSnapshot : snapshot.getChildren()) {
+                        Member member = memberSnapshot.getValue(Member.class);
+                        member.setId(memberSnapshot.getKey());
+                        memberList.add(member);
+                    }
+                    emitter.onNext(memberList);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    emitter.onError(error.toException());
+                }
+            });
+        }, BackpressureStrategy.BUFFER);
+    }
+
+    public Single<Boolean> updateOrganizationMember(Member member, String organizationId) {
+        return Single.create(emitter -> {
+
+            firebaseDatabase.getReference(Constants.ORGANIZATIONS_NODE)
+                    .child(organizationId)
+                    .child(Constants.MEMBERS)
+                    .child(member.getId())
+                    .setValue(member)
+                    .addOnCompleteListener(task -> {
+                        emitter.onSuccess(task.isSuccessful());
                     });
         });
     }

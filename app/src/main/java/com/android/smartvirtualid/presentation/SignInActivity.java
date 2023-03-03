@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.android.smartvirtualid.R;
 import com.android.smartvirtualid.data.models.Organization;
 import com.android.smartvirtualid.data.models.Person;
+import com.android.smartvirtualid.datasource.SharedPreferencesDataSource;
 import com.android.smartvirtualid.di.ViewModelProviderFactory;
 import com.android.smartvirtualid.presentation.admin.AdminActivity;
 import com.android.smartvirtualid.presentation.organization.OrganizationActivity;
@@ -34,6 +35,8 @@ public class SignInActivity extends DaggerAppCompatActivity {
     @Inject
     ViewModelProviderFactory providerFactory;
     AuthenticationViewModel authenticationViewModel;
+    @Inject
+    SharedPreferencesDataSource sharedPreferencesDataSource;
     private String role;
 
     @Override
@@ -47,11 +50,15 @@ public class SignInActivity extends DaggerAppCompatActivity {
         switch (role) {
             case Person.PERSON_ROLE:
                 authenticationViewModel.observePersonAuthenticateStateLiveDat().observe(this, person -> {
+                    sharedPreferencesDataSource.saveId(person.getId());
+                    sharedPreferencesDataSource.setRole(Person.PERSON_ROLE);
                     startActivity(new Intent(this, PersonalInformationActivity.class));
                 });
                 break;
             case Organization.ORGANIZATION_ROLE:
                 authenticationViewModel.observeOrganizationAuthenticateStateLiveDat().observe(this, organization -> {
+                    sharedPreferencesDataSource.saveId(organization.getId());
+                    sharedPreferencesDataSource.setRole(Organization.ORGANIZATION_ROLE);
                     startActivity(new Intent(this, OrganizationActivity.class));
                 });
                 break;

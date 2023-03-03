@@ -157,10 +157,10 @@ public class AddPersonActivity extends DaggerAppCompatActivity {
                 email, password, phone, martialStatus, job, gender, photoUrl
         )) {
             if (addPersonViewModel.validateCivilId(civilId)) {
+                progressDialog.show();
                 Person person = new Person(name, gender, birthdate, nationality,
                         civilId, martialStatus, residency, email,
                         password, phone, job, disability, photoUrl);
-                progressDialog.show();
                 addPersonViewModel.uploadImageToFirebaseStorage(Uri.parse(photoUrl));
                 addPersonViewModel.observeUploadImageState().observe(this, photoDownloadUrl -> {
                     person.setPhotoUrl(photoDownloadUrl);

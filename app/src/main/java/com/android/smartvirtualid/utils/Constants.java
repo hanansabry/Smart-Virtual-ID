@@ -8,4 +8,8 @@ public class Constants {
     public static final String ORGANIZATIONS_NODE = "organizations";
     public static final String ROLE = "role";
     public static final String AUTHORITY_ADMIN = "authority_admin";
+    public static final String MEMBERS = "members";
+    public static final String USER_ID = "user_id";
+    public static final String IS_EDITABLE = "is_editable";
+    public static final String MEMBER = "member";
 }

@@ -12,10 +12,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.android.smartvirtualid.R;
+import com.android.smartvirtualid.datasource.SharedPreferencesDataSource;
 import com.android.smartvirtualid.presentation.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+import javax.inject.Inject;
+
 public class AdminActivity extends AppCompatActivity {
+
+    @Inject
+    SharedPreferencesDataSource sharedPreferencesDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,7 @@ public class AdminActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.sign_out) {
             FirebaseAuth.getInstance().signOut();
+            sharedPreferencesDataSource.removeAllValues();
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

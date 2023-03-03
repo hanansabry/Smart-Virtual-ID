@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.android.smartvirtualid.R;
 import com.android.smartvirtualid.data.models.Organization;
 import com.android.smartvirtualid.di.ViewModelProviderFactory;
-import com.android.smartvirtualid.presentation.viewmodels.AddOrganizationViewModel;
+import com.android.smartvirtualid.presentation.viewmodels.OrganizationViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import javax.inject.Inject;
@@ -33,7 +33,7 @@ public class AddOrganizationActivity extends DaggerAppCompatActivity {
 
     @Inject
     ViewModelProviderFactory providerFactory;
-    AddOrganizationViewModel addOrganizationViewModel;
+    OrganizationViewModel organizationViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,8 @@ public class AddOrganizationActivity extends DaggerAppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Loading");
-        addOrganizationViewModel = new ViewModelProvider(getViewModelStore(), providerFactory).get(AddOrganizationViewModel.class);
-        addOrganizationViewModel.observeAddingOrganizationStateLiveData().observe(this, success -> {
+        organizationViewModel = new ViewModelProvider(getViewModelStore(), providerFactory).get(OrganizationViewModel.class);
+        organizationViewModel.observeAddingOrganizationStateLiveData().observe(this, success -> {
             progressDialog.dismiss();
             if (success) {
                 Toast.makeText(this, "Organization is added successfully", Toast.LENGTH_SHORT).show();
@@ -54,7 +54,7 @@ public class AddOrganizationActivity extends DaggerAppCompatActivity {
                 Toast.makeText(this, "Can't add organization, please try again later", Toast.LENGTH_SHORT).show();
             }
         });
-        addOrganizationViewModel.observeErrorState().observe(this, error -> {
+        organizationViewModel.observeErrorState().observe(this, error -> {
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             progressDialog.dismiss();
         });
@@ -72,7 +72,7 @@ public class AddOrganizationActivity extends DaggerAppCompatActivity {
         } else {
             progressDialog.show();
             Organization organization = new Organization(name, email, password, description);
-            addOrganizationViewModel.addNewOrganization(organization);
+            organizationViewModel.addNewOrganization(organization);
         }
     }
 }

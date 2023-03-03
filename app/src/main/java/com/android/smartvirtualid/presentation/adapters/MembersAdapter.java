@@ -7,6 +7,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.smartvirtualid.R;
+import com.android.smartvirtualid.data.models.Member;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +17,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberViewHolder> {
+
+    private List<Member> memberList;
+    private OrganizationCallback organizationCallback;
+
+    public MembersAdapter(List<Member> memberList, OrganizationCallback organizationCallback) {
+        this.memberList = memberList;
+        this.organizationCallback = organizationCallback;
+    }
 
     @NonNull
     @Override
@@ -24,12 +35,15 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberVi
 
     @Override
     public void onBindViewHolder(@NonNull MemberViewHolder holder, int position) {
-
+        Member member = memberList.get(position);
+        holder.civilId.setText(member.getCivilId());
+        holder.statusTextView.setText(member.getStatus());
+        holder.editButton.setOnClickListener(v -> organizationCallback.onEditMember(member));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return memberList.size();
     }
 
     class MemberViewHolder extends RecyclerView.ViewHolder {
@@ -45,5 +59,9 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MemberVi
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public interface OrganizationCallback {
+        void onEditMember(Member member);
     }
 }
