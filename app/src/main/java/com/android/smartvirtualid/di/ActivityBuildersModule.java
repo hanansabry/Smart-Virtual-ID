@@ -9,6 +9,7 @@ import com.android.smartvirtualid.presentation.SignInActivity;
 import com.android.smartvirtualid.presentation.SplashActivity;
 import com.android.smartvirtualid.presentation.admin.AddOrganizationActivity;
 import com.android.smartvirtualid.presentation.admin.AddPersonActivity;
+import com.android.smartvirtualid.presentation.admin.AdminActivity;
 import com.android.smartvirtualid.presentation.organization.AddMemberActivity;
 import com.android.smartvirtualid.presentation.organization.OrganizationActivity;
 import com.android.smartvirtualid.presentation.person.PersonalInformationActivity;
@@ -21,6 +22,9 @@ public abstract class ActivityBuildersModule {
 
     @ContributesAndroidInjector
     abstract SplashActivity contributeSplashActivity();
+
+    @ContributesAndroidInjector
+    abstract AdminActivity contributeAdminActivity();
 
     @ContributesAndroidInjector(modules = AuthenticationViewModelModule.class)
     abstract SignInActivity contributeSignInActivity();

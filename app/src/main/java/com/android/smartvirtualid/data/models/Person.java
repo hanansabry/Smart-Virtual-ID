@@ -1,5 +1,8 @@
 package com.android.smartvirtualid.data.models;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class Person {
 
     public static final String PERSON_ROLE = "person";
@@ -19,6 +22,7 @@ public class Person {
     private String disability;
     private String photoUrl;
     private String qrCodeUrl;
+    private List<HashMap<String, String>> organizationsList;
 
     public Person() {
     }
@@ -157,5 +161,13 @@ public class Person {
 
     public void setQrCodeUrl(String qrCodeUrl) {
         this.qrCodeUrl = qrCodeUrl;
+    }
+
+    public List<HashMap<String, String>> getOrganizationsList() {
+        return organizationsList;
+    }
+
+    public void setOrganizationsList(List<HashMap<String, String>> organizationsList) {
+        this.organizationsList = organizationsList;
     }
 }

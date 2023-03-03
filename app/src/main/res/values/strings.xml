@@ -33,4 +33,5 @@
     <string name="all_fields_required_msg">All fields must be entered</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="list_of_access_id">List of Access Id</string>
 </resources>

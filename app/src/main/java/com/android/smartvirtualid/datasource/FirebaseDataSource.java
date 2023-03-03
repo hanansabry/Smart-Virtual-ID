@@ -20,6 +20,7 @@ import net.glxn.qrgen.android.QRCode;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -295,11 +296,16 @@ public class FirebaseDataSource {
                                     if (task1.isSuccessful()) {
                                         emitter.onSuccess(true);
                                         //save organization to person
+                                        HashMap<String, Object> updateValues = new HashMap<>();
+                                        updateValues.put("organization_id", organizationId);
+                                        updateValues.put("member_id", memberId);
+                                        updateValues.put("qr_code", member.getQrCode());
+                                        updateValues.put("organization_name", member.getOrganizationName());
                                         firebaseDatabase.getReference(Constants.PERSONS_NODE)
                                                 .child(member.getUserId())
                                                 .child(Constants.ORGANIZATIONS_NODE)
                                                 .push()
-                                                .setValue(organizationId);
+                                                .setValue(updateValues);
                                     } else {
                                         emitter.onSuccess(false);
                                     }
@@ -361,6 +367,14 @@ public class FirebaseDataSource {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             Person person = snapshot.getValue(Person.class);
+                            person.setId(snapshot.getKey());
+                            //get organizations of this person
+                            List<HashMap<String, String>> organizationsList = new ArrayList<>();
+                            for (DataSnapshot organizationSnapshot : snapshot.child(Constants.ORGANIZATIONS_NODE).getChildren()) {
+                                HashMap<String, String> organizationsMap = (HashMap<String, String>) organizationSnapshot.getValue();
+                                organizationsList.add(organizationsMap);
+                            }
+                            person.setOrganizationsList(organizationsList);
                             emitter.onSuccess(person);
                         }
 
