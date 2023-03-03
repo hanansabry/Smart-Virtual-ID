@@ -63,4 +63,8 @@ public class DatabaseRepository {
     public Single<Boolean> updateOrganizationMember(Member member, String organizationId) {
         return firebaseDataSource.updateOrganizationMember(member, organizationId);
     }
+
+    public Single<Person> retrievePersonData(String userId) {
+        return firebaseDataSource.retrievePersonData(userId);
+    }
 }

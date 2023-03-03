@@ -66,6 +66,7 @@ public class SignInActivity extends DaggerAppCompatActivity {
                 break;
             case Constants.AUTHORITY_ADMIN:
                 authenticationViewModel.observeAdminAuthenticateStateLiveData().observe(this, success -> {
+                    sharedPreferencesDataSource.setRole(Constants.AUTHORITY_ADMIN);
                     startActivity(new Intent(this, AdminActivity.class));
                 });
                 break;

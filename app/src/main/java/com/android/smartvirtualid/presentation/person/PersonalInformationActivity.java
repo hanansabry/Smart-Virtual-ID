@@ -2,22 +2,59 @@ package com.android.smartvirtualid.presentation.person;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.smartvirtualid.R;
 import com.android.smartvirtualid.datasource.SharedPreferencesDataSource;
+import com.android.smartvirtualid.di.ViewModelProviderFactory;
 import com.android.smartvirtualid.presentation.MainActivity;
+import com.android.smartvirtualid.presentation.viewmodels.PersonViewModel;
+import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
-public class PersonalInformationActivity extends AppCompatActivity {
+public class PersonalInformationActivity extends DaggerAppCompatActivity {
 
+    @BindView(R.id.photo_image_view)
+    ImageView photoImageView;
+    @BindView(R.id.name_edit_text)
+    TextInputEditText nameEditText;
+    @BindView(R.id.birthdate_edit_text)
+    TextInputEditText birthdateEditText;
+    @BindView(R.id.nationality_edit_text)
+    TextInputEditText nationalityEditText;
+    @BindView(R.id.civil_id_edit_text)
+    TextInputEditText civilIdEditText;
+    @BindView(R.id.disability_edit_text)
+    TextInputEditText disabilityEditText;
+    @BindView(R.id.residency_edit_text)
+    TextInputEditText residencyEditText;
+    @BindView(R.id.email_edit_text)
+    TextInputEditText emailEditText;
+    @BindView(R.id.phone_edit_text)
+    TextInputEditText phoneEditText;
+    @BindView(R.id.martial_status_edit_text)
+    TextInputEditText martialEditText;
+    @BindView(R.id.job_edit_text)
+    TextInputEditText jobEditText;
+    @BindView(R.id.gender_textview)
+    TextView genderTextView;
+
+    @Inject
+    ViewModelProviderFactory providerFactory;
+    PersonViewModel personViewModel;
     @Inject
     SharedPreferencesDataSource sharedPreferencesDataSource;
 
@@ -25,7 +62,26 @@ public class PersonalInformationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_information);
+        setTitle("Personal Information");
         ButterKnife.bind(this);
+
+        String id = sharedPreferencesDataSource.getId();
+        personViewModel = new ViewModelProvider(getViewModelStore(), providerFactory).get(PersonViewModel.class);
+        personViewModel.retrievePersonData(id);
+        personViewModel.observePersonLiveData().observe(this, person -> {
+            Glide.with(this).load(person.getPhotoUrl()).into(photoImageView);
+            nameEditText.setText(person.getName());
+            birthdateEditText.setText(person.getBirthDate());
+            nationalityEditText.setText(person.getNationality());
+            civilIdEditText.setText(person.getCivilId());
+            disabilityEditText.setText(person.getDisability());
+            residencyEditText.setText(person.getResidency());
+            emailEditText.setText(person.getEmail());
+            phoneEditText.setText(person.getPhone());
+            martialEditText.setText(person.getMartialStatus());
+            jobEditText.setText(person.getJob());
+            genderTextView.setText(person.getGender());
+        });
     }
 
     @Override

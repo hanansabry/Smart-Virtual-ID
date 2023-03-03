@@ -351,4 +351,24 @@ public class FirebaseDataSource {
                     });
         });
     }
+
+    public Single<Person> retrievePersonData(String userId) {
+        return Single.create(emitter -> {
+
+            firebaseDatabase.getReference(Constants.PERSONS_NODE)
+                    .child(userId)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Person person = snapshot.getValue(Person.class);
+                            emitter.onSuccess(person);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            emitter.onError(error.toException());
+                        }
+                    });
+        });
+    }
 }
