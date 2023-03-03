@@ -31,6 +31,16 @@ public class SharedPreferencesDataSource {
         editor.apply();
     }
 
+
+    public void saveName(String name) {
+        editor.putString(Constants.NAME, name);
+        editor.apply();
+    }
+
+    public String getName() {
+        return sharedPreferences.getString(Constants.NAME, null);
+    }
+
     public String getRole() {
         return sharedPreferences.getString(Constants.ROLE, null);
     }

@@ -12,4 +12,5 @@ public class Constants {
     public static final String USER_ID = "user_id";
     public static final String IS_EDITABLE = "is_editable";
     public static final String MEMBER = "member";
+    public static final String NAME = "name";
 }

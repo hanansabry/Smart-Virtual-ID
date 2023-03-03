@@ -52,6 +52,7 @@ public class SignInActivity extends DaggerAppCompatActivity {
                 authenticationViewModel.observePersonAuthenticateStateLiveDat().observe(this, person -> {
                     sharedPreferencesDataSource.saveId(person.getId());
                     sharedPreferencesDataSource.setRole(Person.PERSON_ROLE);
+                    sharedPreferencesDataSource.saveName(person.getName());
                     startActivity(new Intent(this, PersonalInformationActivity.class));
                 });
                 break;
@@ -59,6 +60,7 @@ public class SignInActivity extends DaggerAppCompatActivity {
                 authenticationViewModel.observeOrganizationAuthenticateStateLiveDat().observe(this, organization -> {
                     sharedPreferencesDataSource.saveId(organization.getId());
                     sharedPreferencesDataSource.setRole(Organization.ORGANIZATION_ROLE);
+                    sharedPreferencesDataSource.saveName(organization.getName());
                     startActivity(new Intent(this, OrganizationActivity.class));
                 });
                 break;

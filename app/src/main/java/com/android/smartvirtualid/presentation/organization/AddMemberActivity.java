@@ -73,6 +73,7 @@ public class AddMemberActivity extends DaggerAppCompatActivity {
     SharedPreferencesDataSource sharedPreferencesDataSource;
     private boolean isEditable;
     private Member member;
+    private String organizationName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +81,16 @@ public class AddMemberActivity extends DaggerAppCompatActivity {
         setContentView(R.layout.activity_add_member);
         setTitle(getString(R.string.add_member));
         ButterKnife.bind(this);
+        imagesSelector = new GalleryImagesSelector(AddMemberActivity.this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Loading");
 
         isEditable = getIntent().getBooleanExtra(Constants.IS_EDITABLE, false);
         member = getIntent().getParcelableExtra(Constants.MEMBER);
         organizationId = sharedPreferencesDataSource.getId();
-        imagesSelector = new GalleryImagesSelector(AddMemberActivity.this);
+        organizationName = sharedPreferencesDataSource.getName();
+
+
         addMemberViewModel = new ViewModelProvider(getViewModelStore(), providerFactory).get(AddMemberViewModel.class);
         if (isEditable && member != null) {
             uploadPhotoLayout.setVisibility(View.GONE);
@@ -158,7 +162,7 @@ public class AddMemberActivity extends DaggerAppCompatActivity {
                 Toast.makeText(this, "You must enter all fields", Toast.LENGTH_SHORT).show();
             } else {
                 if (isValidCivilId(civilId)) {
-                    Member member = new Member(selectedPerson.getId(), civilId, organizationId,status, description, photoUrl);
+                    Member member = new Member(selectedPerson.getId(), civilId, organizationId, organizationName, status, description, photoUrl);
                     addMemberViewModel.uploadImageToFirebaseStorage(Uri.parse(photoUrl));
                     addMemberViewModel.observeUploadImageState().observe(this, photoDownloadUrl -> {
                         member.setPhotoIdUrl(photoDownloadUrl);

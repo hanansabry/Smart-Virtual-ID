@@ -11,6 +11,7 @@ public class Member implements Parcelable {
     private String userId;
     private String civilId;
     private String organizationId;
+    private String organizationName;
     private String status;
     private String description;
     private String photoIdUrl;
@@ -19,10 +20,11 @@ public class Member implements Parcelable {
     public Member() {
     }
 
-    public Member(String userId, String civilId, String organizationId, String status, String description, String photoIdUrl) {
+    public Member(String userId, String civilId, String organizationId, String organizationName, String status, String description, String photoIdUrl) {
         this.userId = userId;
         this.civilId = civilId;
         this.organizationId = organizationId;
+        this.organizationName = organizationName;
         this.status = status;
         this.description = description;
         this.photoIdUrl = photoIdUrl;
@@ -83,6 +85,14 @@ public class Member implements Parcelable {
         this.organizationId = organizationId;
     }
 
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -126,6 +136,7 @@ public class Member implements Parcelable {
         dest.writeString(userId);
         dest.writeString(civilId);
         dest.writeString(organizationId);
+        dest.writeString(organizationName);
         dest.writeString(status);
         dest.writeString(description);
         dest.writeString(photoIdUrl);
